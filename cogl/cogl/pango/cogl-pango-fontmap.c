@@ -38,8 +38,8 @@
 #include <pango/pangocairo.h>
 #include <pango/pango-renderer.h>
 
-#include "cogl-pango/cogl-pango.h"
-#include "cogl-pango/cogl-pango-private.h"
+#include "cogl/pango/cogl-pango.h"
+#include "cogl/pango/cogl-pango-private.h"
 #include "cogl/cogl-util.h"
 #include "cogl/cogl-context-private.h"
 

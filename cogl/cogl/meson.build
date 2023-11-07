@@ -64,6 +64,7 @@ cogl_deprecated_headers = [
 ]
 
 cogl_headers = [
+  'pango/cogl-pango.h',
   'cogl1-context.h',
   'cogl-bitmap.h',
   'cogl-color.h',
@@ -193,6 +194,15 @@ endif
 cogl_sources = [
   cogl_driver_sources,
 
+  'pango/cogl-pango-display-list.c',
+  'pango/cogl-pango-display-list.h',
+  'pango/cogl-pango-fontmap.c',
+  'pango/cogl-pango-glyph-cache.c',
+  'pango/cogl-pango-glyph-cache.h',
+  'pango/cogl-pango-pipeline-cache.c',
+  'pango/cogl-pango-pipeline-cache.h',
+  'pango/cogl-pango-private.h',
+  'pango/cogl-pango-render.c',
   'winsys/cogl-winsys-private.h',
   'winsys/cogl-winsys.c',
   'cogl-private.h',
@@ -441,7 +451,9 @@ if have_introspection
       'cairo-1.0',
       'GL-1.0',
       'GObject-2.0',
-      'Graphene-1.0', 
+      'Graphene-1.0',
+      'Pango-1.0',
+      'PangoCairo-1.0'
     ],
     dependencies: [cogl_deps],
     export_packages: 'mutter-cogl-@0@'.format(libmutter_api_version),

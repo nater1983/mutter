@@ -321,7 +321,6 @@ libmutter_clutter = shared_library(libmutter_clutter_name,
   gnu_symbol_visibility: 'hidden',
   link_with: [
     libmutter_cogl,
-    libmutter_cogl_pango,
   ],
   install_rpath: pkglibdir,
   install_dir: pkglibdir,
@@ -355,7 +354,6 @@ if have_introspection
     includes: [
       libmutter_mtk_gir[0],
       libmutter_cogl_gir[0],
-      libmutter_cogl_pango_gir[0],
       'GL-1.0',
       'GObject-2.0',
       'cairo-1.0',
@@ -380,7 +378,6 @@ if have_introspection
     includes: [
       libmutter_mtk_gir[0],
       libmutter_cogl_gir[0],
-      libmutter_cogl_pango_gir[0],
       libmutter_clutter_gir[0],
     ],
     dependencies: [cogl_deps],

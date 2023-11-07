@@ -71,7 +71,6 @@
 #include "clutter/clutter-backend-private.h"
 
 #include "cogl/cogl.h"
-#include "cogl-pango/cogl-pango.h"
 
 #include "cally/cally.h" /* For accessibility support */
 

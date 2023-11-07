@@ -19,10 +19,12 @@ cogl_pkg_deps = [
   gio_dep,
   gobject_dep,
   graphene_dep,
+  pango_dep,
 ]
 
 cogl_pkg_private_deps = [
   cairo_dep,
+  pangocairo_dep,
   gmodule_no_export_dep,
   libmutter_mtk_dep,
   #uprof_dep,
@@ -112,4 +114,3 @@ supported_cogl_debug_c_args = cc.get_supported_arguments(cogl_debug_c_args)
 cogl_c_args += cogl_debug_c_args
 
 subdir('cogl')
-subdir('cogl-pango')

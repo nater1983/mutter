@@ -105,6 +105,9 @@
 #include "cogl/cogl-trace.h"
 #include "cogl/cogl-scanout.h"
 #include "cogl/cogl-graphene.h"
+
+#include "cogl/pango/cogl-pango.h"
+
 /* XXX: This will definitely go away once all the Clutter winsys
  * code has been migrated down into Cogl! */
 #include <cogl/deprecated/cogl-clutter.h>
