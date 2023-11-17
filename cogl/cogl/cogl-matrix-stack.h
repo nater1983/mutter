@@ -43,9 +43,9 @@
 #include <graphene.h>
 
 /**
- * SECTION:cogl-matrix-stack
- * @short_description: Functions for efficiently tracking many
- *                     related transformations
+ * CoglMatrixStack:
+ *
+ * Functions for efficiently tracking many related transformations
  *
  * Matrices can be used (for example) to describe the model-view
  * transforms of objects, texture transforms, and projective

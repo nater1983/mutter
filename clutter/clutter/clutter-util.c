@@ -23,13 +23,6 @@
  *
  */
 
-/**
- * SECTION:clutter-util
- * @short_description: Utility functions
- *
- * Various miscellaneous utilility functions.
- */
-
 #include "config.h"
 
 #include <fribidi.h>

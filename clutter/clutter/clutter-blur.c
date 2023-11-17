@@ -20,10 +20,9 @@
 #include "clutter/clutter-backend.h"
 
 /**
- * SECTION:clutter-blur
- * @short_description: Blur textures
+ * ClutterBlur:
  *
- * #ClutterBlur is a moderately fast gaussian blur implementation.
+ * A moderately fast gaussian blur implementation.
  *
  * # Optimizations
  *
