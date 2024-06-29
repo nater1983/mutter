@@ -183,7 +183,8 @@ _cogl_atlas_get_next_size (unsigned int *map_width,
 }
 
 static void
-_cogl_atlas_get_initial_size (CoglPixelFormat format,
+_cogl_atlas_get_initial_size (CoglContext *ctx,
+                              CoglPixelFormat format,
                               unsigned int *map_width,
                               unsigned int *map_height)
 {
@@ -191,8 +192,6 @@ _cogl_atlas_get_initial_size (CoglPixelFormat format,
   GLenum gl_intformat;
   GLenum gl_format;
   GLenum gl_type;
-
-  _COGL_GET_CONTEXT (ctx, NO_RETVAL);
 
   g_return_if_fail (cogl_pixel_format_get_n_planes (format) == 1);
 
@@ -228,7 +227,8 @@ _cogl_atlas_get_initial_size (CoglPixelFormat format,
 }
 
 static CoglRectangleMap *
-_cogl_atlas_create_map (CoglPixelFormat          format,
+_cogl_atlas_create_map (CoglContext             *ctx,
+                        CoglPixelFormat          format,
                         unsigned int             map_width,
                         unsigned int             map_height,
                         unsigned int             n_textures,
@@ -237,8 +237,6 @@ _cogl_atlas_create_map (CoglPixelFormat          format,
   GLenum gl_intformat;
   GLenum gl_format;
   GLenum gl_type;
-
-  _COGL_GET_CONTEXT (ctx, NULL);
 
   ctx->driver_vtable->pixel_format_to_gl (ctx,
                                           format,
@@ -297,13 +295,14 @@ _cogl_atlas_create_texture (CoglAtlas *atlas,
                             int height)
 {
   CoglTexture *tex;
+  CoglContext *ctx;
   GError *ignore_error = NULL;
-
-  _COGL_GET_CONTEXT (ctx, NULL);
 
   g_return_val_if_fail (
     cogl_pixel_format_get_n_planes (atlas->texture_format) == 1,
     NULL);
+
+  ctx = cogl_texture_get_context (atlas->texture);
 
   if ((atlas->flags & COGL_ATLAS_CLEAR_TEXTURE))
     {
@@ -393,6 +392,7 @@ _cogl_atlas_reserve_space (CoglAtlas             *atlas,
   unsigned int map_width = 0, map_height = 0;
   gboolean ret;
   CoglRectangleMapEntry new_position;
+  CoglContext *context = cogl_texture_get_context (atlas->texture);
 
   /* Check if we can fit the rectangle into the existing map */
   if (atlas->map &&
@@ -469,10 +469,12 @@ _cogl_atlas_reserve_space (CoglAtlas             *atlas,
         _cogl_atlas_get_next_size (&map_width, &map_height);
     }
   else
-    _cogl_atlas_get_initial_size (atlas->texture_format,
+    _cogl_atlas_get_initial_size (context,
+                                  atlas->texture_format,
                                   &map_width, &map_height);
 
-  new_map = _cogl_atlas_create_map (atlas->texture_format,
+  new_map = _cogl_atlas_create_map (context,
+                                    atlas->texture_format,
                                     map_width, map_height,
                                     data.n_textures, data.textures);
 
@@ -612,7 +614,8 @@ create_migration_texture (CoglContext *ctx,
 }
 
 CoglTexture *
-_cogl_atlas_copy_rectangle (CoglAtlas *atlas,
+_cogl_atlas_copy_rectangle (CoglContext *context,
+                            CoglAtlas *atlas,
                             int x,
                             int y,
                             int width,
@@ -623,10 +626,8 @@ _cogl_atlas_copy_rectangle (CoglAtlas *atlas,
   CoglBlitData blit_data;
   GError *ignore_error = NULL;
 
-  _COGL_GET_CONTEXT (ctx, NULL);
-
   /* Create a new texture at the right size */
-  tex = create_migration_texture (ctx, width, height, internal_format);
+  tex = create_migration_texture (context, width, height, internal_format);
   if (!cogl_texture_allocate (tex, &ignore_error))
     {
       g_error_free (ignore_error);

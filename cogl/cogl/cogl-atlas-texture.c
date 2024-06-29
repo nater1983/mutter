@@ -170,8 +170,7 @@ static void
 _cogl_atlas_texture_post_reorganize_cb (void *user_data)
 {
   CoglAtlas *atlas = user_data;
-
-  _COGL_GET_CONTEXT (ctx, NO_RETVAL);
+  CoglContext *ctx = cogl_texture_get_context (atlas->texture);
 
   if (atlas->map)
     {
@@ -210,7 +209,8 @@ _cogl_atlas_texture_post_reorganize_cb (void *user_data)
 static void
 _cogl_atlas_texture_atlas_destroyed_cb (void *user_data)
 {
-  _COGL_GET_CONTEXT (ctx, NO_RETVAL);
+  CoglAtlas *atlas = user_data;
+  CoglContext *ctx = cogl_texture_get_context (atlas->texture);
 
   /* Remove the atlas from the global list */
   ctx->atlases = g_slist_remove (ctx->atlases, user_data);
@@ -380,7 +380,8 @@ _cogl_atlas_texture_migrate_out_of_atlas (CoglAtlasTexture *atlas_tex)
   cogl_flush ();
 
   standalone_tex =
-    _cogl_atlas_copy_rectangle (atlas_tex->atlas,
+    _cogl_atlas_copy_rectangle (cogl_texture_get_context (COGL_TEXTURE (atlas_tex)),
+                                atlas_tex->atlas,
                                 atlas_tex->rectangle.x + 1,
                                 atlas_tex->rectangle.y + 1,
                                 atlas_tex->rectangle.width - 2,
