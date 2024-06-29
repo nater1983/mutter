@@ -133,6 +133,8 @@ static void
 _cogl_atlas_texture_pre_reorganize_cb (void *data)
 {
   CoglAtlas *atlas = data;
+  CoglContext *ctx =
+    cogl_texture_get_context (COGL_TEXTURE (atlas->texture));
 
   /* We don't know if any journal entries currently depend on OpenGL
    * texture coordinates that would be invalidated by reorganizing
@@ -141,7 +143,7 @@ _cogl_atlas_texture_pre_reorganize_cb (void *data)
    * We are assuming that texture atlas migration never happens
    * during a flush so we don't have to consider recursion here.
    */
-  cogl_flush ();
+  cogl_flush (ctx);
 
   if (atlas->map)
     _cogl_rectangle_map_foreach (atlas->map,
@@ -362,11 +364,13 @@ static void
 _cogl_atlas_texture_migrate_out_of_atlas (CoglAtlasTexture *atlas_tex)
 {
   CoglTexture *standalone_tex;
+  CoglContext *ctx;
 
   /* Make sure this texture is not in the atlas */
   if (!atlas_tex->atlas)
     return;
 
+  ctx = cogl_texture_get_context (COGL_TEXTURE (atlas_tex));
   COGL_NOTE (ATLAS, "Migrating texture out of the atlas");
 
   /* We don't know if any journal entries currently depend on
@@ -377,10 +381,10 @@ _cogl_atlas_texture_migrate_out_of_atlas (CoglAtlasTexture *atlas_tex)
    * We are assuming that texture atlas migration never happens
    * during a flush so we don't have to consider recursion here.
    */
-  cogl_flush ();
+  cogl_flush (ctx);
 
   standalone_tex =
-    _cogl_atlas_copy_rectangle (cogl_texture_get_context (COGL_TEXTURE (atlas_tex)),
+    _cogl_atlas_copy_rectangle (ctx,
                                 atlas_tex->atlas,
                                 atlas_tex->rectangle.x + 1,
                                 atlas_tex->rectangle.y + 1,
