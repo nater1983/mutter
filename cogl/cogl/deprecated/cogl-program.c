@@ -46,8 +46,6 @@ cogl_program_dispose (GObject *object)
   CoglProgram *program = COGL_PROGRAM (object);
   int i;
 
-  _COGL_GET_CONTEXT (ctx, NO_RETVAL);
-
   /* Unref all of the attached shaders and destroy the list */
   g_slist_free_full (program->attached_shaders, g_object_unref);
 
@@ -105,8 +103,6 @@ void
 cogl_program_attach_shader (CoglProgram *program,
                             CoglShader  *shader)
 {
-  _COGL_GET_CONTEXT (ctx, NO_RETVAL);
-
   if (!COGL_IS_PROGRAM (program) || !COGL_IS_SHADER (shader))
     return;
 
